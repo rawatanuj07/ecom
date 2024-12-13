@@ -1,11 +1,11 @@
-import {DocumentTextIcon} from '@sanity/icons'
+// import {DocumentTextIcon} from '@sanity/icons'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const postType = defineType({
   name: 'post',
   title: 'Post',
   type: 'document',
-  icon: DocumentTextIcon,
+  // icon: DocumentTextIcon,
   fields: [
     defineField({
       name: 'title',
