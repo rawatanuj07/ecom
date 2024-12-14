@@ -1,11 +1,9 @@
 async function SearchPage({
   searchParams,
 }: {
-  searchParams: {
-    query: string;
-  };
+  searchParams: Promise<{ query: string }>;
 }) {
-  const { query } = searchParams; // Removed `await` since `searchParams` is not asynchronous
+  const { query } = await searchParams; // Removed `await` since `searchParams` is not asynchronous
   return <div>SearchPage for {query}</div>;
 }
 
