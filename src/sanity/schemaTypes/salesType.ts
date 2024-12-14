@@ -41,7 +41,7 @@ export const salesType = defineType({
   preview: {
     select: {
       title: "title",
-      discoutnAmount: "discoutnAmount",
+      discountAmount: "discountAmount",
       couponCode: "couponcode",
       isActive: "isActive",
     },
