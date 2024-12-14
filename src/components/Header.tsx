@@ -12,13 +12,13 @@ import {
 } from "@clerk/nextjs";
 export default function Header() {
   const { user } = useUser();
-  const createClerkPasskey = async () => {
-    try {
-      const response = await user?.createPasskey();
-    } catch (err) {
-      console.error("error:", JSON.stringify(err, null, 2));
-    }
-  };
+  // const createClerkPasskey = async () => {
+  //   try {
+  //     const response = await user?.createPasskey();
+  //   } catch (err) {
+  //     console.error("error:", JSON.stringify(err, null, 2));
+  //   }
+  // };
   return (
     <header className="flex flex-wrap justify-between items-center px-4 py-2">
       <div className="flex w-full flex-wrap justify-between items-center">
