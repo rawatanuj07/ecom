@@ -2,8 +2,8 @@ import { BsCart4 } from "react-icons/bs";
 import { defineField, defineType } from "sanity";
 
 export const productType = defineType({
-  name: "productType",
-  title: "Product type",
+  name: "product",
+  title: "Products",
   type: "document",
   icon: BsCart4,
   fields: [
@@ -24,7 +24,7 @@ export const productType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "Image",
+      name: "image",
       title: "Product Image",
       type: "image",
       options: {
@@ -59,12 +59,12 @@ export const productType = defineType({
     select: {
       title: "name",
       media: "image",
-      subtitle: "price",
+      price: "price",
     },
     prepare(select) {
       return {
         title: select.title,
-        subtitle: `$${select.subtitle}`,
+        subtitle: `$${select.price}`,
         media: select.media,
       };
     },
