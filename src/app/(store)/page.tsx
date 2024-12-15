@@ -10,7 +10,7 @@ export default async function Home() {
   const categories = await getAllCategories();
   return (
     <>
-      <h1>Helllo 123</h1>
+      <h1>Helllo 1234</h1>
       <UserIcon />
       <Button>click-me</Button>
       <div className="flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4">
