@@ -4,13 +4,14 @@ import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
 
 import { UserIcon } from "@sanity/icons";
+import SaleBanner from "@/components/salebanner";
 
 export default async function Home() {
   const products = await getAllProducts();
   const categories = await getAllCategories();
   return (
     <>
-      <h1>Helllo 1234</h1>
+      <SaleBanner />
       <UserIcon />
       <Button>click-me</Button>
       <div className="flex flex-col items-center justify-top min-h-screen bg-gray-100 p-4">

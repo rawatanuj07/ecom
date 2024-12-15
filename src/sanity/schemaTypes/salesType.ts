@@ -25,6 +25,19 @@ export const salesType = defineType({
       description: "Amount off in percentage or fixed value",
     }),
     defineField({
+      name: "couponCode",
+      title: "Coupon Code",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "validFrom",
+      title: "Valid From",
+      type: "datetime",
+      validation: (Rule) => Rule.required(),
+    }),
+
+    defineField({
       name: "validUntil",
       title: "Valid Until",
       type: "datetime",
