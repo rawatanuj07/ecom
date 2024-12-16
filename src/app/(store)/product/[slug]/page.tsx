@@ -7,11 +7,12 @@ import { notFound } from "next/navigation";
 async function ProductPage({
   params,
 }: {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }) {
-  const { slug } = params;
+  const slugg = await params;
+  const slug = slugg.slug;
   const product = await getProductBySlug(slug);
   if (!product) {
     return notFound();
