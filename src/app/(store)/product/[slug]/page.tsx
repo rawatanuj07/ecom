@@ -8,11 +8,19 @@ type Params = {
   slug: string;
 };
 
-type ProductPageProps = {
-  params: Params;
+type SearchParams = {
+  [key: string]: string | string[] | undefined;
 };
 
-export default async function ProductPage({ params }: ProductPageProps) {
+type ProductPageProps = {
+  params: Params;
+  searchParams?: SearchParams;
+};
+
+export default async function ProductPage({
+  params,
+  searchParams,
+}: ProductPageProps) {
   const { slug } = params;
 
   const product = await getProductBySlug(slug);
