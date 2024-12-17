@@ -4,25 +4,20 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+type Params = {
+  slug: string;
+};
+
 type ProductPageProps = {
-  params: { [key: string]: string | string[] | undefined };
+  params: Params;
 };
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const slug =
-    typeof params.slug === "string"
-      ? params.slug
-      : Array.isArray(params.slug)
-        ? params.slug[0]
-        : undefined;
-
-  if (!slug) {
-    return notFound(); // Handle case where slug is invalid
-  }
+  const { slug } = params;
 
   const product = await getProductBySlug(slug);
   if (!product) {
-    return notFound();
+    notFound();
   }
 
   const isOutOfStock = product.stock != null && product.stock <= 0;
@@ -31,7 +26,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div
-          className={`relative aspect-square overflow-hidden rounded-1g shadow-lg ${
+          className={`relative aspect-square overflow-hidden rounded-lg shadow-lg ${
             isOutOfStock ? "opacity-50" : ""
           }`}
         >
