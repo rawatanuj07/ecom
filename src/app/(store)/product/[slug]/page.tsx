@@ -3,7 +3,6 @@ import { getProductBySlug } from "@/sanity/lib/products/getProductBySlug";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-// @ts-nocheck
 async function ProductPage({
   params,
 }: {
