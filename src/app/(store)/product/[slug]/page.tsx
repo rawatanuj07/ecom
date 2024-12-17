@@ -4,9 +4,13 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-type Params = Promise<{ slug: string }>;
-
-async function ProductPage({ params }: { params: Params }) {
+async function ProductPage({
+  params,
+}: {
+  params: {
+    slug: string;
+  };
+}) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) {
