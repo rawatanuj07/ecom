@@ -4,14 +4,22 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-async function ProductPage({
-  params,
-}: {
-  params: Promise<{
-    slug: string;
-  }>;
-}) {
-  const { slug } = await params;
+type ProductPageProps = {
+  params: { [key: string]: string | string[] | undefined };
+};
+
+export default async function ProductPage({ params }: ProductPageProps) {
+  const slug =
+    typeof params.slug === "string"
+      ? params.slug
+      : Array.isArray(params.slug)
+        ? params.slug[0]
+        : undefined;
+
+  if (!slug) {
+    return notFound(); // Handle case where slug is invalid
+  }
+
   const product = await getProductBySlug(slug);
   if (!product) {
     return notFound();
@@ -22,25 +30,22 @@ async function ProductPage({
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {" "}
         <div
-          className={`relative aspect-square  overflow-hidden rounded-1g shadow-lg ${isOutOfStock ? "opacity-50" : ""}`}
+          className={`relative aspect-square overflow-hidden rounded-1g shadow-lg ${
+            isOutOfStock ? "opacity-50" : ""
+          }`}
         >
           {product.image && (
             <Image
               src={imageUrl(product.image).url()}
               alt={product.name ?? "Product image"}
               fill
-              className="object-contain transition-transform duration-300
-                        hover: scale-105"
+              className="object-contain transition-transform duration-300 hover:scale-105"
             />
           )}
           {isOutOfStock && (
-            <div
-              className="absolute inset-0 flex items-center justify-center
-                        bg-black bg-opacity-50"
-            >
-              <span className="text-white font-bold text-lg">Out Of Stock</span>
+            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <span className="text-white font-bold text-lg">Out of Stock</span>
             </div>
           )}
         </div>
@@ -61,5 +66,3 @@ async function ProductPage({
     </div>
   );
 }
-
-export default ProductPage;
