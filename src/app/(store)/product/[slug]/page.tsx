@@ -3,6 +3,8 @@ import { getProductBySlug } from "@/sanity/lib/products/getProductBySlug";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Button } from "../../../../components/ui/button";
+import AddToBasketButton from "@/components/AddToBasketButton";
 async function ProductPage(props: { params: Promise<{ slug: string }> }) {
   const { params } = props; // Destructure params from props
   const { slug } = await params; // Resolve the promise to extract slug
@@ -51,6 +53,11 @@ async function ProductPage(props: { params: Promise<{ slug: string }> }) {
                 <PortableText value={product.description} />
               )}
             </div>
+          </div>
+
+          <div className="mt-6">
+            <AddToBasketButton product={product} disabled={isOutOfStock} />
+            <Button>Add to Basket</Button>
           </div>
         </div>
       </div>
