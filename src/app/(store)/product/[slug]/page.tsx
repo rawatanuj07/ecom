@@ -3,16 +3,12 @@ import { getProductBySlug } from "@/sanity/lib/products/getProductBySlug";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-// @ts-nocheck
-async function ProductPage({
-  params,
-}: {
-  params: Promise<{
-    slug: string;
-  }>;
-}) {
-  const { slug } = await params;
+async function ProductPage(props: { params: Promise<{ slug: string }> }) {
+  const { params } = props; // Destructure params from props
+  const { slug } = await params; // Resolve the promise to extract slug
+
   const product = await getProductBySlug(slug);
+
   if (!product) {
     return notFound();
   }
