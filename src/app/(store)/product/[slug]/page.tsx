@@ -3,13 +3,10 @@ import { getProductBySlug } from "@/sanity/lib/products/getProductBySlug";
 import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-async function ProductPage({
-  params,
-}: {
-  params: Promise<{
-    slug: string;
-  }>;
-}) {
+
+type Params = Promise<{ slug: string }>; // Promise-based params introduced in Next.js 15
+
+async function ProductPage({ params }: { params: Params }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) {
