@@ -4,7 +4,7 @@ import { Product } from "../../sanity.types";
 import useBasketStore from "../app/stores";
 interface AddToBasketButtonProps {
   product: Product;
-  disabled: boolean;
+  disabled?: boolean;
 }
 export default function AddToBasketButton({
   product,

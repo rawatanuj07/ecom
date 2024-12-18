@@ -75,7 +75,6 @@ export default function Header() {
             >
               {itemCount}
             </span>
-            <span>My-Basket</span>
           </Link>
           {/*user area*/}
           <ClerkLoaded>

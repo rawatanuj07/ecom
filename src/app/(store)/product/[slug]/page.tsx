@@ -57,7 +57,6 @@ async function ProductPage(props: { params: Promise<{ slug: string }> }) {
 
           <div className="mt-6">
             <AddToBasketButton product={product} disabled={isOutOfStock} />
-            <Button>Add to Basket</Button>
           </div>
         </div>
       </div>
