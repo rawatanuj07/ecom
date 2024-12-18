@@ -1,7 +1,7 @@
 "use client";
 import AddToBasketButton from "@/components/AddToBasketButton";
 import useBasketStore from "../../stores";
-import { SignInButton, useAuth, useUser } from "@clerk/nextjs";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
