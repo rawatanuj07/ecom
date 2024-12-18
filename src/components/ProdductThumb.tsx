@@ -14,7 +14,6 @@ function ProductThumb({ product }: { product: Product }) {
         isOutOfStock ? "opacity-50" : ""
       }`}
     >
-      hello
       <div className="relative aspect-square w-full h-full overflow-hidden">
         {product.image && (
           <Image

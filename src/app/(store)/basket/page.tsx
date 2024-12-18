@@ -16,10 +16,10 @@ import Loader from "@/components/Loader";
 function BasketPage() {
   const groupedItems = useBasketStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
-  const { user } = useUser();
+  //   const { user } = useUser();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = false;
 
   useEffect(() => {
     setIsClient(true);
@@ -39,7 +39,7 @@ function BasketPage() {
   }
 
   const handleCheckout = async () => {
-    alert("Welcome to your e-commerce store!");
+    alert("Contact developer for further functionalities");
     // if (!isSignedIn) return;
     // setIsLoading(true);
 
