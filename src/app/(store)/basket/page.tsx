@@ -7,12 +7,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { imageUrl } from "@/sanity/lib/image";
 import Loader from "@/components/Loader";
-export type Metadata = {
-  orderNumber: string;
-  customerName: string;
-  customerEmail: string;
-  clerkUserId: string;
-};
+// export type Metadata = {
+//   orderNumber: string;
+//   customerName: string;
+//   customerEmail: string;
+//   clerkUserId: string;
+// };
 function BasketPage() {
   const groupedItems = useBasketStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
@@ -23,7 +23,7 @@ function BasketPage() {
 
   useEffect(() => {
     setIsClient(true);
-  });
+  }, []);
 
   if (!isClient) {
     return <Loader />;
@@ -39,21 +39,22 @@ function BasketPage() {
   }
 
   const handleCheckout = async () => {
-    if (!isSignedIn) return;
-    setIsLoading(true);
+    alert("Welcome to your e-commerce store!");
+    // if (!isSignedIn) return;
+    // setIsLoading(true);
 
-    try {
-      const metadata: Metadata = {
-        orderNumber: crypto.randomUUID(),
-        customerName: user?.fullName ?? "Unknown",
-        customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
-        clerkUserId: user!.id,
-      };
-    } catch (error) {
-      console.error("Error creating checkout session", error);
-    } finally {
-      setIsLoading(false);
-    }
+    // try {
+    //   const metadata: Metadata = {
+    //     orderNumber: crypto.randomUUID(),
+    //     customerName: user?.fullName ?? "Unknown",
+    //     customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+    //     clerkUserId: user!.id,
+    //   };
+    // } catch (error) {
+    //   console.error("Error creating checkout session", error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
