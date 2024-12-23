@@ -28,5 +28,11 @@ export const categoryType = defineType({
       title: "title",
       subtitle: "description",
     },
+    prepare(select) {
+      return {
+        title: select.title,
+        subtitle: select.subtitle,
+      };
+    },
   },
 });

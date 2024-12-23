@@ -32,7 +32,8 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <main>
-            <Header /> {children}
+            <Header />
+            {children}
           </main>
           <SanityLive />
         </body>

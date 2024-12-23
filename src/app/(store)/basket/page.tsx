@@ -39,7 +39,9 @@ function BasketPage() {
   }
 
   const handleCheckout = async () => {
-    alert("Contact developer for further functionalities");
+    alert(
+      "Contact developer for further functionalities or email at rawat.mysterymonks@gmail.com"
+    );
     // if (!isSignedIn) return;
     // setIsLoading(true);
 

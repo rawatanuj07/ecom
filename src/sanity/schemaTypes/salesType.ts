@@ -14,7 +14,8 @@ export const salesType = defineType({
     }),
     defineField({
       name: "description",
-      title: "text",
+      title: "Description",
+      description: "Enter description for sale",
       type: "text",
       validation: (Rule) => Rule.required(),
     }),
