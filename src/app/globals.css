@@ -70,3 +70,29 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.glass {
+  background: linear-gradient(135deg, rgba(245, 5, 125, 0.1), rgba(245, 5, 125, 0));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(4px);
+  /* border-radius: 20px; */
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glasss {
+  background: linear-gradient(135deg, rgba(77, 230, 248, 0.1), rgba(77, 230, 248, 0));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+.lglass{
+  background: linear-gradient(135deg, rgba(77, 230, 248, 0.3), rgba(77, 230, 248, 0.2));
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+border-radius: 30px;
+border: 2px solid rgba(255, 255, 255, 0.25);
+box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.5);
+
+}

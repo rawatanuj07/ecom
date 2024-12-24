@@ -11,8 +11,9 @@ const ProductsView = ({ products, categories }: ProductsViewProps) => {
   return (
     <div className="flex flex-col">
       {/*categories*/}
-      <div className="w-full sm:w-[200px]">
+      <div className=" flex w-full sm:w-[200px]">
         <CategorySelectorComponent categories={categories} />
+        {/* <PricdSelectorComponent categories={categories} /> */}
       </div>
 
       {/*products*/}

@@ -17,7 +17,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useValueStore } from "../../app/valueStore"; // Import the Zustand store
 
 interface CategorySelectorProps {
   categories: Category[];
@@ -27,9 +28,17 @@ export function CategorySelectorComponent({
   categories,
 }: CategorySelectorProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string>("");
-  const router = useRouter();
+  const value = useValueStore((state) => state.value); // Get current value from Zustand
+  const setValue = useValueStore((state) => state.setValue); // Get the setValue action
 
+  const router = useRouter();
+  // Updated handleSelect function
+  // Use useEffect to watch the value and navigate to home if it's empty
+  useEffect(() => {
+    if (value === "") {
+      router.push("/"); // Navigate to home route if value is empty
+    }
+  }, [value, router]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -75,7 +84,7 @@ export function CategorySelectorComponent({
                   key={category._id}
                   value={category.title}
                   onSelect={() => {
-                    setValue(value === category._id ? "" : category._id);
+                    setValue(category._id); // Update Zustand store
                     router.push(`/categories/${category.slug?.current}`);
                     setOpen(false);
                   }}

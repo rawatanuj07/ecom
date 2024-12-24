@@ -25,7 +25,7 @@ export default function Header() {
   // };
 
   return (
-    <header className="flex flex-wrap justify-between items-center px-4 py-2">
+    <header className=" flex flex-wrap justify-between items-center px-4 py-2">
       <div className="flex w-full flex-wrap justify-between items-center">
         <Link
           href="/"
@@ -37,7 +37,7 @@ export default function Header() {
         mx-auto
         sm: mx-0"
         >
-          Shopping
+          yourBrandName
         </Link>
         <Form
           action="search"
