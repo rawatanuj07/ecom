@@ -1,27 +1,34 @@
 "use client";
-// @ts-expect-error - Ignoring TypeScript error due to missing types for RangeSlider
+import type { SliderValue } from "@nextui-org/react";
 
-import RangeSlider from "react-range-slider-input";
-import "react-range-slider-input/dist/style.css";
+import React from "react";
+import { Slider } from "@nextui-org/react";
+
 export default function ProductFilter() {
+  const [value, setValue] = React.useState<SliderValue>([100, 300]);
+
   return (
-    <>
-      <RangeSlider
-        id="price-range-slider"
-        className="rangeslider"
-        min={0}
-        max={1000}
-        // step={50}
-        defaultValue={[100, 500]} // Default range values
-        onThumbDragStart={() => console.log("Thumb drag started")}
-        onThumbDragEnd={() => console.log("Thumb drag ended")}
-        onRangeDragStart={() => console.log("Range drag started")}
-        onRangeDragEnd={() => console.log("Range drag ended")}
-        disabled={false} // Slider is active
-        rangeSlideDisabled={false} // Allow dragging the range
-        thumbsDisabled={[false, false]} // Both thumbs are active
-        orientation="horizontal" // Horizontal slider
+    <div className="flex flex-col gap-2 w-full h-full max-w-md items-start justify-center">
+      <Slider
+        className="max-w-lg "
+        formatOptions={{ style: "currency", currency: "USD" }}
+        label="Select a budget"
+        maxValue={3000}
+        minValue={0}
+        step={50}
+        value={value}
+        onChange={setValue}
+        classNames={{
+          filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
+          track: "h-2 w-full", // Apply gradient to filler
+          thumb:
+            "w-8 h-8 bg-blue-500 rounded-full cursor-pointer hover:scale-110 transition-transform ease-in-out duration-300",
+        }}
       />
-    </>
+      <p className="text-default-500 font-medium text-small">
+        Selected budget:{" "}
+        {Array.isArray(value) && value.map((b) => `$${b}`).join(" – ")}
+      </p>
+    </div>
   );
 }

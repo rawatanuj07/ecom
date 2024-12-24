@@ -1,4 +1,3 @@
-// @ts-expect-error - Ignoring
 import { Category, Product } from "../../sanity.types";
 import ProductGrid from "./ProductGrid";
 import { CategorySelectorComponent } from "./ui/category-selector";
@@ -13,11 +12,11 @@ const ProductsView = ({ products, categories }: ProductsViewProps) => {
   return (
     <div className="flex flex-col">
       {/*categories*/}
-      <div className="flex">
-        <div className="w-1/2  sm:w-[200px]">
+      <div className="flex sm:flex flex-col w-full">
+        <div className="w-full mt-4 sm:w-[200px]">
           <CategorySelectorComponent categories={categories} />
         </div>
-        <div className="w-1/2 ml-12 mt-2 pt-1">
+        <div className="w-full mt-2 sm:mt-0 md:ml-12">
           <ProductFilter />
         </div>
       </div>
