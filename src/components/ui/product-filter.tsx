@@ -1,5 +1,5 @@
 "use client";
-// @ts-expect-error
+// @ts-expect-error - Ignoring TypeScript error due to missing types for RangeSlider
 
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
