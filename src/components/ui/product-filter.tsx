@@ -1,11 +1,10 @@
 "use client";
-import type { SliderValue } from "@nextui-org/react";
 import { Product } from "../../../sanity.types";
 import React from "react";
 import { Slider } from "@nextui-org/react";
 import { useFilterStore } from "@/app/priceFilterStore";
 
-export default function ProductFilter({ products }: { products: Product[] }) {
+export default function ProductFilter() {
   // const [value, setValue] = React.useState<SliderValue>([400, 2600]);
   const { priceRange, setPriceRange } = useFilterStore();
 
