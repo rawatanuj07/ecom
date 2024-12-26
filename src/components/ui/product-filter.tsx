@@ -1,14 +1,10 @@
 "use client";
-import { Product } from "../../../sanity.types";
 import React from "react";
 import { Slider } from "@nextui-org/react";
 import { useFilterStore } from "@/app/priceFilterStore";
 
 export default function ProductFilter() {
-  // const [value, setValue] = React.useState<SliderValue>([400, 2600]);
   const { priceRange, setPriceRange } = useFilterStore();
-
-  // const searchParam = "shoe";
 
   return (
     <div className="flex flex-col gap-2 w-full h-full max-w-md items-start justify-center">
