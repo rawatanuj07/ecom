@@ -1,11 +1,15 @@
 "use client";
 import type { SliderValue } from "@nextui-org/react";
-
+import { Product } from "../../../sanity.types";
 import React from "react";
 import { Slider } from "@nextui-org/react";
+import { useFilterStore } from "@/app/priceFilterStore";
 
-export default function ProductFilter() {
-  const [value, setValue] = React.useState<SliderValue>([100, 300]);
+export default function ProductFilter({ products }: { products: Product[] }) {
+  // const [value, setValue] = React.useState<SliderValue>([400, 2600]);
+  const { priceRange, setPriceRange } = useFilterStore();
+
+  // const searchParam = "shoe";
 
   return (
     <div className="flex flex-col gap-2 w-full h-full max-w-md items-start justify-center">
@@ -13,11 +17,16 @@ export default function ProductFilter() {
         className="max-w-lg "
         formatOptions={{ style: "currency", currency: "USD" }}
         label="Select a budget"
-        maxValue={3000}
+        maxValue={1000}
         minValue={0}
         step={50}
-        value={value}
-        onChange={setValue}
+        value={priceRange}
+        onChange={(value) => {
+          // Ensure value is a tuple [number, number]
+          if (Array.isArray(value) && value.length === 2) {
+            setPriceRange([value[0], value[1]] as [number, number]);
+          }
+        }}
         classNames={{
           filler: "bg-gradient-to-r from-primary-500 to-secondary-400",
           track: "h-2 w-full", // Apply gradient to filler
@@ -27,7 +36,8 @@ export default function ProductFilter() {
       />
       <p className="text-default-500 font-medium text-small">
         Selected budget:{" "}
-        {Array.isArray(value) && value.map((b) => `$${b}`).join(" – ")}
+        {Array.isArray(priceRange) &&
+          priceRange.map((b) => `$${b}`).join(" – ")}
       </p>
     </div>
   );

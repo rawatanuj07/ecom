@@ -11,23 +11,26 @@ import {
   SignedIn,
 } from "@clerk/nextjs";
 import useBasketStore from "@/app/stores";
+import { useValueStore } from "@/app/valueStore";
+import { useFilterStore } from "@/app/priceFilterStore";
+
 export default function Header() {
+  const { resetValue } = useValueStore();
+  const { resetPrice } = useFilterStore();
   const { user } = useUser();
   const itemCount = useBasketStore((state) =>
     state.items.reduce((total, item) => total + item.quantity, 0)
   );
-  // const createClerkPasskey = async () => {
-  //   try {
-  //     const response = await user?.createPasskey();
-  //   } catch (err) {
-  //     console.error("error:", JSON.stringify(err, null, 2));
-  //   }
-  // };
+  const handleReset = () => {
+    resetValue();
+    resetPrice();
+  };
 
   return (
     <header className=" flex flex-wrap justify-between items-center px-4 py-2">
       <div className="flex w-full flex-wrap justify-between items-center">
         <Link
+          onClick={handleReset}
           href="/"
           className="
         text-2xl

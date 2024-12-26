@@ -1,12 +1,14 @@
 import ProductsView from "@/components/ProductsView";
 import { getAllProducts } from "@/sanity/lib/products/getAllProducts";
 import { getAllCategories } from "@/sanity/lib/products/getAllCategories";
-
+import { searchProductsByPrice } from "@/sanity/lib/products/searchProductsByPrice";
 import SaleBanner from "@/components/salebanner";
 
 export default async function Home() {
   const products = await getAllProducts();
+  console.log("products are", products);
   const categories = await getAllCategories();
+  // const productss = await searchProductsByPrice();
   return (
     <>
       <SaleBanner />
