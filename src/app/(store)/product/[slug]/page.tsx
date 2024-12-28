@@ -44,6 +44,9 @@ async function ProductPage(props: { params: Promise<{ slug: string }> }) {
         <div className="flex flex-col justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+            <h4 className="font-semibold">
+              Stock: <span>{product.stock}</span>
+            </h4>
             <div className="text-xl font-semibold mb-4">
               £{product.price?.toFixed(2)}
             </div>
