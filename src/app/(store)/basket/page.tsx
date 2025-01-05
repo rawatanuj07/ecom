@@ -1,25 +1,27 @@
 "use client";
 import AddToBasketButton from "@/components/AddToBasketButton";
 import useBasketStore from "../../stores";
-import { SignInButton, useAuth } from "@clerk/nextjs";
+import { SignInButton, useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { imageUrl } from "@/sanity/lib/image";
 import Loader from "@/components/Loader";
-// export type Metadata = {
-//   orderNumber: string;
-//   customerName: string;
-//   customerEmail: string;
-//   clerkUserId: string;
-// };
+import { create } from "domain";
+import { Metadata } from "../../../../actions/createCheckoutSession";
+import Razorpay from "razorpay";
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 function BasketPage() {
   const groupedItems = useBasketStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
-  //   const { user } = useUser();
+  const { user } = useUser();
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
-  const isLoading = false;
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -38,26 +40,163 @@ function BasketPage() {
     );
   }
 
-  const handleCheckout = async () => {
-    alert(
-      "Contact developer for further functionalities or email at rawat.mysterymonks@gmail.com"
-    );
-    // if (!isSignedIn) return;
-    // setIsLoading(true);
+  // const handleCheckout = async () => {
+  //   // alert(
+  //   //   "Contact developer for further functionalities or email at rawat.mysterymonks@gmail.com"
+  //   // );
+  //   if (!isSignedIn) return;
+  //   setIsLoading(true);
 
-    // try {
-    //   const metadata: Metadata = {
-    //     orderNumber: crypto.randomUUID(),
-    //     customerName: user?.fullName ?? "Unknown",
-    //     customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
-    //     clerkUserId: user!.id,
-    //   };
-    // } catch (error) {
-    //   console.error("Error creating checkout session", error);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+  //   try {
+  //     const metadata: Metadata = {
+  //       orderNumber: crypto.randomUUID(),
+  //       customerName: user?.fullName ?? "Unknown",
+  //       customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+  //       clerkUserId: user!.id,
+  //     };
+  //     const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
+  //     if(checkoutUrl) {
+  //       window.location.href = checkoutUrl;
+  //     }
+
+  //   } catch (error) {
+  //     console.error("Error creating checkout session", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  const handleCheckout = async () => {
+    if (!isSignedIn) return;
+    setIsLoading(true);
+
+    try {
+      const metadata: Metadata = {
+        orderNumber: crypto.randomUUID(),
+        customerName: user?.fullName ?? "Unknown",
+        customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+        clerkUserId: user!.id,
+      };
+
+      // Send basket items and metadata to the backend for order creation
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: groupedItems, // Send the basket items to the server
+          metadata, // Send the metadata (e.g., customer info)
+        }),
+      });
+
+      const data = await response.json();
+      console.log("data is", data);
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: "INR",
+        name: "Your Company Name",
+        description: "Test Transaction",
+        order_id: data.orderId,
+        handler: function (response: any) {
+          alert(response.razorpay_payment_id);
+          alert(response.razorpay_order_id);
+          alert(response.razorpay_signature);
+        },
+        prefill: {
+          name: metadata.customerName,
+          email: metadata.customerEmail,
+          contact: user?.phoneNumbers[0]?.phoneNumber ?? "",
+        },
+        notes: {
+          address: "Razorpay Corporate Office",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+    } catch (error) {
+      console.error("Error creating checkout session", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  // const totalAmount = groupedItems.reduce((total: number, item: any) => {
+  //   return total + item.product.price * item.quantity;
+  // }, 0);
+  // const createOrderId = async () => {
+  //   try {
+  //     const response = await fetch("/api/order", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       // body: JSON.stringify({
+  //       //  amount: parseFloat(totalAmount)*100,
+  //       // })
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+  //     return data.orderId;
+  //   } catch (error) {
+  //     console.error("There was a problem with your fetch operation:", error);
+  //   }
+  // };
+  // const handleCheckout = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     const orderId: string = await createOrderId();
+  //     const options = {
+  //       key: process.env.key_id,
+  //       amount: parseFloat(amount) * 100,
+  //       currency: INR,
+  //       name: "name",
+  //       description: "description",
+  //       order_id: orderId,
+  //       handler: async function (response: any) {
+  //         const data = {
+  //           orderCreationId: orderId,
+  //           razorpayPaymentId: response.razorpay_payment_id,
+  //           razorpayOrderId: response.razorpay_order_id,
+  //           razorpaySignature: response.razorpay_signature,
+  //         };
+
+  //         const result = await fetch("/api/verify", {
+  //           method: "POST",
+  //           body: JSON.stringify(data),
+  //           headers: { "Content-Type": "application/json" },
+  //         });
+  //         const res = await result.json();
+  //         if (res.isOk) alert("payment succeed");
+  //         else {
+  //           alert(res.message);
+  //         }
+  //       },
+  //       prefill: {
+  //         name: name,
+  //         email: email,
+  //       },
+  //       theme: {
+  //         color: "#3399cc",
+  //       },
+  //     };
+  //     const paymentObject = new window.Razorpay(options);
+  //     paymentObject.on("payment.failed", function (response: any) {
+  //       alert(response.error.description);
+  //     });
+  //     paymentObject.open();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="container mx-auto p-4 max-w-6x1">
