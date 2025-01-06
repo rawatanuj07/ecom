@@ -36,12 +36,13 @@ export async function POST(request: Request) {
     });
     console.log("razorpay order is", order);
     // Return the checkout URL
-    const checkoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/payment/${order.id}`;
+    const checkoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/success/${order.id}`;
 
     return NextResponse.json({
       orderId: order.id,
       amount: order.amount,
       currency: order.currency,
+      suucessurl: checkoutUrl,
     });
   } catch (error) {
     console.error("Error creating Razorpay order:", error);
