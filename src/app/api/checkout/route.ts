@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     console.log("item details are", itemDetails);
 
     // Create Razorpay order
-    const order: any = await razorpay.orders.create({
+    const order = await razorpay.orders.create({
       amount: totalAmount * 100, // Convert to paise
       currency: "INR",
       receipt: `${metadata.orderNumber}`,

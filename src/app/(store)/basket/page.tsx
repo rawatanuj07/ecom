@@ -9,15 +9,16 @@ import { imageUrl } from "@/sanity/lib/image";
 import Loader from "@/components/Loader";
 import { Metadata } from "../../../../actions/createCheckoutSession";
 
+type RazorpayInstance = {
+  open: () => void;
+};
+
+type RazorpayConstructor = new (options: RazorpayOptions) => RazorpayInstance;
+
 declare global {
   interface Window {
-    Razorpay: RazorpayInstance;
+    Razorpay: RazorpayConstructor;
   }
-}
-
-interface RazorpayInstance {
-  new (options: RazorpayOptions): RazorpayInstance;
-  open: () => void;
 }
 
 interface RazorpayOptions {
