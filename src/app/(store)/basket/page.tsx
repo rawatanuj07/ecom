@@ -11,9 +11,41 @@ import { Metadata } from "../../../../actions/createCheckoutSession";
 
 declare global {
   interface Window {
-    Razorpay: any;
+    Razorpay: RazorpayInstance;
   }
 }
+
+interface RazorpayInstance {
+  new (options: RazorpayOptions): RazorpayInstance;
+  open: () => void;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  order_id: string;
+  name: string;
+  description: string;
+  method: string;
+  handler: (response: RazorpayResponse) => void;
+  prefill?: {
+    name?: string;
+    email?: string;
+    contact?: string;
+  };
+  notes?: Record<string, string>;
+  theme?: {
+    color?: string;
+  };
+}
+
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
 function BasketPage() {
   const groupedItems = useBasketStore((state) => state.getGroupedItems());
   const clearBasket = useBasketStore((state) => state.clearBasket);
@@ -67,27 +99,20 @@ function BasketPage() {
 
       const data = await response.json();
       console.log("data is", data);
-
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      const options: RazorpayOptions = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
         amount: data.amount,
         currency: "USD",
-        upi_link: "true",
+        order_id: data.orderId,
         name: "UPI available on Live mode",
         description: "Test Transaction",
-        order_id: data.orderId,
         method: "upi",
-        handler: function (response: any) {
+        handler: function (response: RazorpayResponse) {
           clearBasket();
-          // router.push("/success");
           alert(
             "Please wait kindly do not refresh the page even after closing this pop-up until you are redirected to the success page."
           );
           router.push(`/success/${response.razorpay_payment_id}`);
-
-          // alert(response.razorpay_payment_id);
-          // alert(response.razorpay_order_id);
-          // alert(response.razorpay_signature);
         },
         prefill: {
           name: metadata.customerName,
@@ -104,6 +129,43 @@ function BasketPage() {
 
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
+
+      // const options = {
+      //   key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      //   amount: data.amount,
+      //   currency: "USD",
+      //   upi_link: "true",
+      //   name: "UPI available on Live mode",
+      //   description: "Test Transaction",
+      //   order_id: data.orderId,
+      //   method: "upi",
+      //   handler: function (response: any) {
+      //     clearBasket();
+      //     // router.push("/success");
+      //     alert(
+      //       "Please wait kindly do not refresh the page even after closing this pop-up until you are redirected to the success page."
+      //     );
+      //     router.push(`/success/${response.razorpay_payment_id}`);
+
+      //     // alert(response.razorpay_payment_id);
+      //     // alert(response.razorpay_order_id);
+      //     // alert(response.razorpay_signature);
+      //   },
+      //   prefill: {
+      //     name: metadata.customerName,
+      //     email: metadata.customerEmail,
+      //     contact: user?.phoneNumbers[0]?.phoneNumber ?? "",
+      //   },
+      //   notes: {
+      //     address: "Decode Parvati",
+      //   },
+      //   theme: {
+      //     color: "#3399cc",
+      //   },
+      // };
+
+      // const paymentObject = new window.Razorpay(options);
+      // paymentObject.open();
     } catch (error) {
       console.error("Error creating checkout session", error);
     } finally {
@@ -178,7 +240,7 @@ function BasketPage() {
             <button
               onClick={handleCheckout}
               disabled={isLoading}
-              className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded hover: bg-blue-600 disabled: bg-gray-400"
+              className="mt-4 w-full bg-blue-500 text-white px-4 py-2 rounded hover: bg-blue-600 disabled:bg-gray-400"
             >
               {isLoading ? "Processing..." : "Checkout"}
             </button>

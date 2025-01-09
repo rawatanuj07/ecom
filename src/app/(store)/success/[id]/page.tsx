@@ -1,6 +1,5 @@
 import { Button } from "../../../../components/ui/button";
 import Link from "next/link";
-import useBasketStore from "../../../stores";
 export default async function SuccessPage(props: {
   params: Promise<{ id: string }>;
 }) {
