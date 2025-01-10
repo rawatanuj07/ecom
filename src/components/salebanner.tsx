@@ -11,7 +11,8 @@ async function SaleBanner() {
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex-1">
           <h2 className="text-3xl sm:text-5xl font-extrabold text-left mb-4">
-            {sale.title}
+            {/* {sale.title} */}
+            Full Power Sale
           </h2>
           <p className="text-left text-xl sm:text-3xl font-semibold mb-6">
             {sale.description}
