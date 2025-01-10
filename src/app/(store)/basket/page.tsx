@@ -252,6 +252,17 @@ function BasketPage() {
               </button>
             </SignInButton>
           )}
+          <h2 className="  font-bold">Test Email: anuj@decode-parvati.tech</h2>
+          <h2 className=" font-bold">Test Password: typicalMachine</h2>
+          <div className="mt-4">
+            <Image
+              src="/unnamed.png"
+              alt="Card Image"
+              width={300}
+              height={200}
+              className="rounded"
+            />
+          </div>
         </div>
         <div className="h-64 lg:h-0">{/*THIS DIV IS FOR SPACING*/}</div>
       </div>

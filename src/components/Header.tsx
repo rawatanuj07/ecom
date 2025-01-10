@@ -25,6 +25,12 @@ export default function Header() {
     resetValue();
     resetPrice();
   };
+  const handleOrdersClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    alert(
+      "Contact developer for this feature. You can also email at at anuj@decode-parvati.tech"
+    );
+  };
 
   return (
     <header className=" flex flex-wrap justify-between items-center px-4 py-2">
@@ -84,6 +90,7 @@ export default function Header() {
           <ClerkLoaded>
             <SignedIn>
               <Link
+                onClick={handleOrdersClick}
                 href="/orders"
                 className="flex-1 relative flex justify-center sm:justify-start
               sm: flex-none items-center space-x-2 bg-blue-500
