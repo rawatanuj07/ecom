@@ -13,6 +13,7 @@ import {
 import useBasketStore from "@/app/stores";
 import { useValueStore } from "@/app/valueStore";
 import { useFilterStore } from "@/app/priceFilterStore";
+import { redirect } from "next/navigation";
 
 export default function Header() {
   const { resetValue } = useValueStore();
@@ -25,11 +26,8 @@ export default function Header() {
     resetValue();
     resetPrice();
   };
-  const handleOrdersClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    alert(
-      "Contact developer for this feature. You can also email at at anuj@decode-parvati.tech"
-    );
+  const handleOrdersClick = () => {
+    redirect("/orders");
   };
 
   return (
