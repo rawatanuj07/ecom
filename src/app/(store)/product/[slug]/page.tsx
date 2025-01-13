@@ -4,6 +4,10 @@ import { PortableText } from "next-sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import AddToBasketButton from "@/components/AddToBasketButton";
+
+export const dynamic = "force-static";
+export const revalidate = 3600;
+
 async function ProductPage(props: { params: Promise<{ slug: string }> }) {
   const { params } = props; // Destructure params from props
   const { slug } = await params; // Resolve the promise to extract slug

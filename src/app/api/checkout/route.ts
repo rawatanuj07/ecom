@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
+import { client } from "../../../sanity/lib/client";
+import { v4 as uuidv4 } from "uuid"; // Import UUID library to generate unique keys
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID!,
@@ -14,11 +16,11 @@ interface BasketItem {
   };
   quantity: number;
 }
-
 interface Metadata {
   orderNumber: string;
   customerName: string;
   customerEmail: string;
+  clerkUserId: string; // Add clerkUserId to metadata
 }
 
 // Define a type-safe handler
@@ -55,6 +57,31 @@ export async function POST(request: Request) {
       },
     });
     console.log("razorpay order is", order);
+
+    // Save order details to Sanity
+    const orderDoc = {
+      _type: "order",
+      orderNumber: metadata.orderNumber,
+      razorpayOrderId: order.id,
+      orderDate: new Date().toISOString(),
+      clerkUserId: metadata.clerkUserId,
+      customerName: metadata.customerName,
+      customerEmail: metadata.customerEmail,
+      totalAmount: totalAmount,
+      currency: "INR",
+      products: items.map((item) => ({
+        _type: "object",
+        _key: uuidv4(), // Generate a unique key for each product
+
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+      })),
+      status: "pending", // You can update this later based on payment status
+    };
+
+    await client.create(orderDoc);
+    console.log("Order saved to Sanity:", orderDoc);
 
     // Return the checkout URL
     const checkoutUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/success/${order.id}`;
